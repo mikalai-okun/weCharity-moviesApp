@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if movies.total_results is defined %}
+        <div class="row no-gutter">
+            {% for movie in movies.results %}
+                <div class="col-xs-6 col-sm-4">
+                    <a class="movie-link" href="{{ path('app_movie_details', {'movieId':movie.id}) }}">
+                        <img
+                            class="img-responsive"
+                            src="http://image.tmdb.org/t/p/w185{{ movie.poster_path }}" alt="{{ movie.title }} Poster">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        {% if movies.total_results > 0 %}
+            <ul class="pagination">
+                {% if currentPage > 1 %}
+                <li><a href="/?page={{ currentPage-1 }}&=apiRequest{{ apiRequest }}">Previous</a></li>
+                {% endif %}
+                <li><a href="/?page={{ currentPage }}&apiRequest={{ apiRequest }}" class="active">Page: {{ currentPage }}</a></li>
+                {% if currentPage < movies.total_pages %}
+                <li><a href="/?page={{ currentPage+1 }}&apiRequest={{ apiRequest }}">Next</a></li>
+                {% endif %}
+            </ul>
+            Total Pages: <b>{{ movies.total_pages }}</b>
+        {% endif %}
+    {% else %}
+        <h2>Sorry, noting found!</h2>
+    {% endif %}
+{% endblock %}

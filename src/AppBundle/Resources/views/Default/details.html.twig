@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block navigation_brand_link %}
+    <a class="navbar-brand" href="{{ path('app_movies') }}"><span class="glyphicon glyphicon-arrow-left"></span> MovieDetail</a>
+{% endblock %}
+
+{% block body %}
+<div class="white-bg detail-wrapper">
+    <div class="movice-title-block Header-bg">
+        <h1>{{ movie.title }}</h1>
+    </div>
+    <div class="movie-content">
+        <div class="row">
+            <div class="col-xs-4">
+                <img
+                    class="img-responsive"
+                    src="http://image.tmdb.org/t/p/w185{{ movie.poster_path }}" alt="{{ movie.title }} Poster">
+            </div>
+            <div class="col-xs-8">
+                <p class="year">{{ movie.release_date|date('Y') }}</p>
+                <p class="runtime">{{ movie.runtime }} min</p>
+                <p class="vote_average"><b>{{ movie.vote_average }}/10</b></p>
+                <div class="Rectangle">Mark as favorite</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="overview">{{ movie.overview }}</p>
+            </div>
+        </div>
+        {% if trailers.results|length > 0 %}
+        <hr>
+        <div class="row trailers">
+            <div class="col-xs-12">
+
+
+                <h2>Trailers:</h2>
+                <ul class="list-unstyled">
+                    {% for i,trailer in trailers.results %}
+                        {% if 'YouTube' == trailer.site %}
+                        <li >
+                            <span class="glyphicon glyphicon-triangle-right trailer-play-btn" data-toggle="modal" data-target="#trailer-modal-{{ i }}"></span>
+                            {{ trailer.name }}
+                            <!-- Modal -->
+                            <div id="trailer-modal-{{ i }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                                <div class="modal-dialog " role="document">
+                                    <div class="modal-content">
+                                        <iframe style="width: 100%; height: 350px;"
+                                                src="https://www.youtube.com/embed/{{ trailer.key }}"
+                                                frameborder="0"
+                                                allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
