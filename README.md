@@ -23,3 +23,8 @@ You should be able to run following URL:
 http://127.0.0.1:8000/
 ```
 
+To Run Unit Tests, type:
+```
+phpunit
+```
+
